@@ -1,5 +1,7 @@
 import streamlit as st
 import pandas as pd
+
+from data_loader import load_movies
 from recommender import get_recommendations
 from visualizations import (
     create_release_year_chart,
@@ -17,7 +19,11 @@ st.title("Movie Recommendation System")
 st.write("Select a movie to find similar movies.")
 
 # Load movie dataset
-movies = pd.read_csv("data/Treanding_movies.csv")
+@st.cache_data
+def get_movies():
+    return load_movies()
+
+movies = get_movies()
 
 # Search for a movie
 selected_movie = st.selectbox(

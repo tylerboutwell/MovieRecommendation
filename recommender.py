@@ -3,16 +3,15 @@ import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.neighbors import NearestNeighbors
 
-# Load movie dataset
-movies = pd.read_csv("data/Treanding_movies.csv")
+from data_loader import load_movies
 
-# Remove duplicate movie titles
-movies = movies.drop_duplicates(subset=["title"], keep="first").reset_index(drop=True)
+# Load movie dataset
+movies = load_movies()
 
 # Convert text into numerical features
 vectorizer = TfidfVectorizer(stop_words="english")
 features = vectorizer.fit_transform(
-    movies["overview"].fillna("")
+    movies["overview"]
 )
 
 # Fit nearest-neighbor search model
