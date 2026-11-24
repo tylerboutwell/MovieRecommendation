@@ -15,9 +15,9 @@ features = vectorizer.fit_transform(
     movies["overview"].fillna("")
 )
 
-# Train KNN model
-knn = NearestNeighbors(metric="cosine", algorithm="brute")
-knn.fit(features)
+# Fit nearest-neighbor search model
+neighbors = NearestNeighbors(metric="cosine", algorithm="brute")
+neighbors.fit(features)
 
 
 def get_recommendations(movie_title, n=5):
@@ -32,7 +32,7 @@ def get_recommendations(movie_title, n=5):
     movie_index = movies.index.get_loc(movie_index[0])
 
     # Find nearest neighbors
-    distances, indices = knn.kneighbors(
+    distances, indices = neighbors.kneighbors(
         features[movie_index],
         n_neighbors=min(n + 1, len(movies))
     )
